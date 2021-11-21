@@ -6,47 +6,58 @@ import { ref } from 'vue'
 
 const slideRef = ref(null);
 function toggleSwitch() {
-  console.log("slideRef.value", slideRef);
   slideRef.value.switchSide()
 }
 </script>
 
 <template>
-  <div class="container">
-    <Slidebb ref="slideRef" msg="Hello Vue 3 + Vite">
-      <template #mainContent>
-        <div class="main-content">
+  <div class="main-container">
+    <Slidebb 
+      class="slidebb-component"
+      ref="slideRef" 
+      :duration="1000" 
+      sideTitleLeft="It's a girl" 
+      sideSubtitleLeft="Oh you think it's gonna be a girl?" 
+      sideTextButtonLeft="IT'S A BOY!" 
+      sideTitleRight="It's a boy" 
+      sideSubtitleRight="Oh you think it's gonna be a boy?" 
+      sideTextButtonRight="IT'S A GIRL!">
+      <template #mainRawContent>
+        <div>
           Main
         </div>
       </template>
-      <template #sideContent>
-        <div class="side-content">
-          Side
-          <button @click="toggleSwitch()"></button>
-        </div>
+      <template #sideContentButtonLeft>
+
+      </template>
+      <template #sideContentTitleRight>
+        <h2>It's a boy</h2>
+      </template>
+      <template #sideContentButtonRight>
+
+      </template>
+      <template #sideRawContent>
       </template>
     </Slidebb>
 
   </div>
 </template>
 
-<style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+<style lang="scss">
+body {
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: lightslategrey;
 }
-.container {
+.main-container {
   width: 1000px;
+  height: 500px;
   margin: auto;
-}
-.side-content {
-  background-color: aqua;
-}
-.main-content {
-  background-color: grey;
+  overflow: hidden;
+
+  .slidebb-component {
+    height: 500px;
+  }
 }
 </style>

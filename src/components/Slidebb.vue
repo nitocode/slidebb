@@ -22,13 +22,15 @@ const props = defineProps({
   sideTextButtonLeft: String,
   sideTitleRight: String,
   sideSubtitleRight: String,
-  sideTextButtonRight: String
+  sideTextButtonRight: String,
+  forwardColor: String,
+  reverseColor: String,
 })
 </script>
 
 <template>
 <div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}]">
-  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`}">
+  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
     <div class="side-content-relative">
       <!-- SIDE CONTENT LEFT -->
       <div class="side-content-title side-content-title-ghost side-content-title-left">
@@ -120,7 +122,6 @@ const props = defineProps({
     height: 100%;
     left: 0%;
     z-index: 30;
-    background-color: #009191;
     overflow: hidden;
 
     &-relative {

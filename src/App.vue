@@ -21,7 +21,9 @@ function toggleSwitch() {
       sideTextButtonLeft="IT'S A BOY!" 
       sideTitleRight="It's a boy" 
       sideSubtitleRight="Oh you think it's gonna be a boy?" 
-      sideTextButtonRight="IT'S A GIRL!">
+      sideTextButtonRight="IT'S A GIRL!"
+      forwardColor="#dc8ec2"
+      reverseColor="#78ade0">
       <template #mainRawContent>
         <div>
           Main
@@ -48,7 +50,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: lightslategrey;
 }
 .main-container {
   width: 1000px;
@@ -58,6 +59,8 @@ body {
 
   .slidebb-component {
     height: 500px;
+    border-radius: 15px;
+    overflow: hidden;
   }
 }
 </style>

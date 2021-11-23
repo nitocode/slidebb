@@ -22,8 +22,8 @@ function toggleSwitch() {
       sideTitleRight="It's a boy" 
       sideSubtitleRight="Oh you think it's gonna be a boy?" 
       sideTextButtonRight="IT'S A GIRL!"
-      forwardColor="#dc8ec2"
-      reverseColor="#78ade0">
+      forwardColor="#78ade0"
+      reverseColor="#dc8ec2">
       <template #mainRawContent>
         <div>
           Main
@@ -52,7 +52,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .main-container {
-  width: 1000px;
+  max-width: 1000px;
   height: 500px;
   margin: auto;
   overflow: hidden;

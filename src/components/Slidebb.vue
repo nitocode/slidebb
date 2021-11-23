@@ -1,8 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+onMounted(() => {
+  window.addEventListener('resize', onResize)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize)
+})
 
 const toggle = ref(false)
 const activeState = ref(false)
+const responsiveMode = ref(false)
 const switchSide = () => {
   activeState.value = true
   toggle.value = !toggle.value
@@ -11,6 +19,15 @@ const switchSide = () => {
     activeState.value = false
   }, props.duration/2)
 }
+
+const onResize =() => {
+  if (window.innerWidth <= 768 && !responsiveMode.value) {
+    responsiveMode.value = true
+  } else if (window.innerWidth > 768 && responsiveMode.value) {
+    responsiveMode.value = false
+  }
+}
+onResize()
 
 defineExpose({
   switchSide
@@ -29,8 +46,8 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}]">
-  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
+<div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}, {'slidebb-container-responsive': responsiveMode}]">
+  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
     <div class="side-content-relative">
       <!-- SIDE CONTENT LEFT -->
       <div class="side-content-title side-content-title-ghost side-content-title-left">
@@ -62,7 +79,7 @@ const props = defineProps({
       <slot name="sideRawContentRight"></slot>
     </div>
   </div>
-  <div class="main-content" :style="{transition: `left ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`}">
+  <div class="main-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`}">
     <slot name="mainRawContent"></slot>
   </div>
 </div>
@@ -127,6 +144,8 @@ const props = defineProps({
     &-relative {
       position: relative;
       width: 100%;
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
 
     .side-content-title {
@@ -171,6 +190,50 @@ const props = defineProps({
         position: relative;
         opacity: 0;
       }
+    }
+  }
+}
+.slidebb-container-responsive {
+  .main-content {
+    height: 67.77%;
+    width: 100%;
+    top: 33.33%;
+    left: initial;
+  }
+  .side-content {
+    height: 33.33%;
+    width: 100%;
+    left: initial;
+    top: 0%;
+    &-text-button {
+      margin-top: 0;
+    }
+  }
+
+  &.slidebb-forward .side-content {
+    top: 67.77%;
+    left: initial;
+    .side-content-title-left-text {
+      transform: translateY(-250%) scaleX(0.35);
+    }
+    .side-content-text-button-left {
+      opacity: 0;
+      transform: none;
+    }
+  }
+
+  &.slidebb-forward .main-content {
+    top: 0%;
+    left: initial;
+  }
+
+  &.slidebb-reverse .side-content {
+    .side-content-title-right-text {
+      transform: translateY(250%) scaleX(0.35);
+    }
+    .side-content-text-button-right {
+      opacity: 0;
+      transform: none;
     }
   }
 }

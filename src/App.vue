@@ -25,33 +25,18 @@ function toggleSwitch() {
       sideTextButtonRight="IT'S A GIRL!"
       forwardColor="#78ade0"
       reverseColor="#dc8ec2">
-      <template #mainRawContent>
-        <div>
-          Main
-        </div>
+      <template #mainRawContentForward>
+        <button class="btn btn-primary">Forward Button</button>
       </template>
-      <template #sideContentButtonLeft>
-
-      </template>
-      <template #sideContentTitleRight>
-        <h2>It's a boy</h2>
-      </template>
-      <template #sideContentButtonRight>
-
-      </template>
-      <template #sideRawContent>
+      <template #mainRawContentReverse>
+        <button class="btn btn-primary">Reverse Button</button>
       </template>
     </Slidebb>
 
   </div>
 </template>
 
-<style lang="scss">
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<style lang="scss" scoped>
 .main-container {
   max-width: 1000px;
   height: 500px;

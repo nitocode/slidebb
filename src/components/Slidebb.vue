@@ -77,17 +77,22 @@ const props = defineProps({
         <span class="side-content-text-button-left" :style="{transition: `transform ${duration/2}ms ease-in-out, opacity ${duration/2}ms ease-in-out`, transitionDelay: `${toggle ? 0 : duration/2}ms`}" v-html="sideTextButtonLeft"></span>
         <span class="side-content-text-button-right" :style="{transition: `transform ${duration/2}ms ease-in-out, opacity ${duration/2}ms ease-in-out`, transitionDelay: `${toggle ? duration/2 : 0}ms`}" v-html="sideTextButtonRight"></span>
       </button>
-      <slot name="sideRawContentLeft"></slot>
-      <slot name="sideRawContentRight"></slot>
+      <slot name="sideRawContentForward"></slot>
+      <slot name="sideRawContentReverse"></slot>
     </div>
   </div>
   <div class="main-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`}">
-    <slot name="mainRawContent"></slot>
+    <div :class="{'hidden-content': toggle}" :style="{transition: `opacity 0ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
+      <slot name="mainRawContentReverse"></slot>
+    </div>
+    <div :class="{'hidden-content': !toggle}" :style="{transition: `opacity 0ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
+      <slot name="mainRawContentForward"></slot>
+    </div>
   </div>
 </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .slidebb-container {
   position: relative;
   width: 100%;
@@ -128,7 +133,6 @@ const props = defineProps({
     height: 100%;
     left: 33.33%;
     z-index: 20;
-    background-color: grey;
   }
 
   .side-content {
@@ -177,8 +181,7 @@ const props = defineProps({
       padding: 12px 30px;
       margin-top: 30px;
       border-radius: 9999px;
-      border-color: white;
-      border-style: solid;
+      border: 2px white solid;
       color: white;
       font-weight: bold;
 
@@ -244,6 +247,19 @@ const props = defineProps({
     .side-content-text-button-right {
       transform: translateX(-50%) translateY(-50%);
     }
+  }
+}
+
+.main-content > div {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.hidden-content {
+    opacity: 0;
   }
 }
 </style>

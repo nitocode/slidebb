@@ -21,9 +21,9 @@ const switchSide = () => {
 }
 
 const onResize =() => {
-  if (window.innerWidth <= 768 && !responsiveMode.value) {
+  if (window.innerWidth <= props.breakPoint && !responsiveMode.value) {
     responsiveMode.value = true
-  } else if (window.innerWidth > 768 && responsiveMode.value) {
+  } else if (window.innerWidth > props.breakPoint && responsiveMode.value) {
     responsiveMode.value = false
   }
 }
@@ -42,6 +42,7 @@ const props = defineProps({
   sideTextButtonRight: String,
   forwardColor: String,
   reverseColor: String,
+  breakPoint: Number
 })
 </script>
 
@@ -49,22 +50,23 @@ const props = defineProps({
 <div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}, {'slidebb-container-responsive': responsiveMode}]">
   <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
     <div class="side-content-relative">
-      <!-- SIDE CONTENT LEFT -->
+      <!-- SIDE CONTENT GHOST -->
       <div class="side-content-title side-content-title-ghost side-content-title-left">
         <div class="side-content-title-left-text">
           <h2 v-html="sideTitleLeft"></h2>
           <p v-html="sideSubtitleLeft"></p>
         </div>
       </div>
+      <!-- SIDE CONTENT LEFT -->
       <div class="side-content-title side-content-title-left">
-        <div class="side-content-title-left-text" :style="{transition: `transform ${duration}ms ease-in-out`}">
+        <div class="side-content-title-left-text" :style="{transition: `transform ${duration}ms ease-in-out, opacity ${duration/2.5}ms ease-in-out`}">
           <h2 v-html="sideTitleLeft"></h2>
           <p v-html="sideSubtitleLeft"></p>
         </div>
       </div>
       <!-- SIDE CONTENT RIGHT -->
       <div class="side-content-title side-content-title-right">
-        <div class="side-content-title-right-text" :style="{transition: `transform ${duration}ms ease-in-out`}">
+        <div class="side-content-title-right-text" :style="{transition: `transform ${duration}ms ease-in-out, opacity ${duration/2.5}ms ease-in-out`}">
           <h2 v-html="sideTitleRight"></h2>
           <p v-html="sideSubtitleRight"></p>
         </div>
@@ -210,15 +212,23 @@ const props = defineProps({
     }
   }
 
+  &.slidebb-active {
+    .side-content {
+      transform: scaleX(1) scaleY(1.65);
+    }
+    .side-content-title-left-text, .side-content-title-right-text {
+      opacity: 0;
+    }
+  }
+
   &.slidebb-forward .side-content {
     top: 67.77%;
     left: initial;
     .side-content-title-left-text {
-      transform: translateY(-250%) scaleX(0.35);
+      transform: translateY(-350%) scaleX(1);
     }
     .side-content-text-button-left {
-      opacity: 0;
-      transform: none;
+      transform: translateX(-50%) translateY(-50%);
     }
   }
 
@@ -229,11 +239,10 @@ const props = defineProps({
 
   &.slidebb-reverse .side-content {
     .side-content-title-right-text {
-      transform: translateY(250%) scaleX(0.35);
+      transform: translateY(350%) scaleX(1);
     }
     .side-content-text-button-right {
-      opacity: 0;
-      transform: none;
+      transform: translateX(-50%) translateY(-50%);
     }
   }
 }

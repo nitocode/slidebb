@@ -15,7 +15,8 @@ function toggleSwitch() {
     <Slidebb 
       class="slidebb-component"
       ref="slideRef" 
-      :duration="1000" 
+      :duration="1000"
+      :breakPoint="768"
       sideTitleLeft="It's a girl" 
       sideSubtitleLeft="Oh you think it's gonna be a girl?" 
       sideTextButtonLeft="IT'S A BOY!" 

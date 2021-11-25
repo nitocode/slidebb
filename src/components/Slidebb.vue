@@ -42,7 +42,8 @@ const props = defineProps({
   sideTextButtonRight: String,
   forwardColor: String,
   reverseColor: String,
-  breakPoint: Number
+  breakPoint: Number,
+  smoothMainContentTransition: Boolean
 })
 </script>
 
@@ -82,10 +83,10 @@ const props = defineProps({
     </div>
   </div>
   <div class="main-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`}">
-    <div :class="{'hidden-content': toggle}" :style="{transition: `opacity 0ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
+    <div :class="{'hidden-content': toggle}" :style="{transition: `opacity ${smoothMainContentTransition ? duration/2 : 0}ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
       <slot name="mainRawContentReverse"></slot>
     </div>
-    <div :class="{'hidden-content': !toggle}" :style="{transition: `opacity 0ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
+    <div :class="{'hidden-content': !toggle}" :style="{transition: `opacity ${smoothMainContentTransition ? duration/2 : 0}ms ease-in-out` ,transitionDelay: `${duration/2}ms`}">
       <slot name="mainRawContentForward"></slot>
     </div>
   </div>
@@ -257,9 +258,11 @@ const props = defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 
   &.hidden-content {
     opacity: 0;
+    z-index: 1;
   }
 }
 </style>

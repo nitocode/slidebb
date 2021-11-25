@@ -27,25 +27,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.main-container {
-  max-width: 1000px;
-  height: 500px;
-  margin: auto;
-  overflow: hidden;
-  @media screen and (max-width: 768px) {
-    height: 90vh;
-  }
-
-  .slidebb-component {
-    height: 500px;
-    border-radius: 15px;
-    overflow: hidden;
-    @media screen and (max-width: 768px) {
-      height: 90vh;
-    }
-  }
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;

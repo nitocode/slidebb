@@ -45,7 +45,7 @@ function toggleSwitch() {
   margin: auto;
   overflow: hidden;
   @media screen and (max-width: 768px) {
-    height: 90vh;
+    height: 100vh;
   }
 
   .slidebb-component {
@@ -53,8 +53,13 @@ function toggleSwitch() {
     border-radius: 15px;
     overflow: hidden;
     @media screen and (max-width: 768px) {
-      height: 90vh;
+      height: 100vh;
     }
+  }
+}
+:deep(.main-content) {
+  @media screen and (max-width: 370px) {
+    transform: scale(0.8);
   }
 }
 </style>

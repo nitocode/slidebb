@@ -229,7 +229,7 @@ const props = defineProps({
     top: 67.77%;
     left: initial;
     .side-content-title-left-text {
-      transform: translateY(-350%) scaleX(1);
+      transform: translateY(-400%) scaleX(1);
     }
     .side-content-text-button-left {
       transform: translateX(-50%) translateY(-50%);
@@ -243,7 +243,7 @@ const props = defineProps({
 
   &.slidebb-reverse .side-content {
     .side-content-title-right-text {
-      transform: translateY(350%) scaleX(1);
+      transform: translateY(400%) scaleX(1);
     }
     .side-content-text-button-right {
       transform: translateX(-50%) translateY(-50%);

@@ -1,40 +1,28 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import Slidebb from './components/Slidebb.vue'
-import Formbb from './components/Formbb.vue'
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-const slideRef = ref(null);
-function toggleSwitch() {
-  slideRef.value.switchSide()
-}
+const router = useRouter()
+
+onMounted(() => {
+  // Github pages SPA workaround
+  let path = localStorage.getItem('path');
+  if (path) {
+    localStorage.removeItem('path');
+    router.push(path);
+  }
+})
 </script>
 
 <template>
-  <div class="main-container">
-    <Slidebb 
-      class="slidebb-component"
-      ref="slideRef" 
-      :duration="1000"
-      :breakPoint="768"
-      :smoothMainContentTransition="true"
-      sideTitleLeft="It's a girl" 
-      sideSubtitleLeft="Oh you think it's gonna be a girl?" 
-      sideTextButtonLeft="IT'S A BOY!" 
-      sideTitleRight="It's a boy" 
-      sideSubtitleRight="Oh you think it's gonna be a boy?" 
-      sideTextButtonRight="IT'S A GIRL!"
-      forwardColor="#78ade0"
-      reverseColor="#dc8ec2">
-      <template #mainRawContentForward>
-        <Formbb :isGirlForm="false" firstLetter="L" />
-      </template>
-      <template #mainRawContentReverse>
-        <Formbb :isGirlForm="true" firstLetter="T" />
-      </template>
-    </Slidebb>
-
+  <div>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -56,5 +44,16 @@ function toggleSwitch() {
       height: 90vh;
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

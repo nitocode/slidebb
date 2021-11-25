@@ -11,6 +11,7 @@ const router = useRouter()
 const slideRef = ref(null)
 const transitionDuration = ref(1000)
 const formCompleted = ref(false)
+const animationCompleted = ref(false)
 function toggleSwitch() {
   slideRef.value.switchSide()
 }
@@ -18,10 +19,10 @@ function formComplete(data) {
   console.log("data completed:", data)
   slideRef.value.setCompleted(true)
 
+  formCompleted.value = true
   setTimeout(() => {
     console.log('ANIMATION FINIE')
-    formCompleted.value = true
-
+    animationCompleted.value = true
     const mainElt = document.querySelector('.main-container')
     mainElt.addEventListener('transitionend', () => {
       console.log('Transition ended');
@@ -33,7 +34,7 @@ function formComplete(data) {
 </script>
 <template>
   
-  <div class="main-container transition transition-transform" :class="{'transform  scale-up': formCompleted}" :style="{transitionDuration: `${transitionDuration}ms`}">
+  <div class="main-container w-full transition-all" :class="[{'transform  scale-up': animationCompleted}, {'form-completed': formCompleted}]" :style="{transitionDuration: `${transitionDuration}ms`}">
     <Slidebb 
       class="slidebb-component"
       ref="slideRef" 
@@ -68,10 +69,15 @@ function formComplete(data) {
   @media screen and (max-width: 768px) {
     height: 100vh;
   }
+  clip-path: circle(100%);
   
   transition-timing-function: cubic-bezier(.65,-0.43,.44,1);
+  // transition-timing-function: ease-in-out;
+  &.form-completed {
+    clip-path: circle(25%);
+  }
   &.scale-up {
-    transform: scale(2.5);
+    transform: scale(6);
   }
 
   .slidebb-component {

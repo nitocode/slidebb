@@ -17,7 +17,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="lg:pt-6">
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component" />

@@ -11,7 +11,8 @@ const submit = () => {
     babyName: babyName.value,
     size: Number(size.value),
     weight: Number(weight.value),
-    date: Number(date.value)
+    date: Number(date.value),
+    isGirlForm: props.isGirlForm
   }
 
   try {
@@ -29,6 +30,7 @@ const submit = () => {
     console.log("data:", data);
 
     // Go to reveal page
+    emit('completed', data);
   } catch (error) {
     console.log(error)
     errorMessage.value = error
@@ -37,6 +39,7 @@ const submit = () => {
     }, 3000);
   }
 }
+const emit = defineEmits(['completed'])
 const props = defineProps({
   isGirlForm: Boolean,
   firstLetter: String
@@ -71,7 +74,7 @@ const props = defineProps({
         <span>kg</span>
       </label>
 
-      <input type="range" min="2" max="5" step="0.01" v-model="weight" class="range range-info mt-2"> 
+      <input type="range" min="2" max="5" step="0.1" v-model="weight" class="range range-info mt-2"> 
     </div> 
     <div class="form-control">
       <label class="label">

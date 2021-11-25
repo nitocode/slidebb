@@ -4,19 +4,40 @@
 import Slidebb from './../components/Slidebb.vue'
 import Formbb from './../components/Formbb.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const slideRef = ref(null);
+const router = useRouter()
+
+const slideRef = ref(null)
+const transitionDuration = ref(1000)
+const formCompleted = ref(false)
 function toggleSwitch() {
   slideRef.value.switchSide()
+}
+function formComplete(data) {
+  console.log("data completed:", data)
+  slideRef.value.setCompleted(true)
+
+  setTimeout(() => {
+    console.log('ANIMATION FINIE')
+    formCompleted.value = true
+
+    const mainElt = document.querySelector('.main-container')
+    mainElt.addEventListener('transitionend', () => {
+      console.log('Transition ended');
+      router.push('/reveal')
+    });
+
+  }, transitionDuration.value * 2)
 }
 </script>
 <template>
   
-  <div class="main-container">
+  <div class="main-container transition transition-transform" :class="{'transform  scale-up': formCompleted}" :style="{transitionDuration: `${transitionDuration}ms`}">
     <Slidebb 
       class="slidebb-component"
       ref="slideRef" 
-      :duration="1000"
+      :duration="transitionDuration"
       :breakPoint="768"
       :smoothMainContentTransition="true"
       sideTitleLeft="It's a girl" 
@@ -28,10 +49,10 @@ function toggleSwitch() {
       forwardColor="#78ade0"
       reverseColor="#dc8ec2">
       <template #mainRawContentForward>
-        <Formbb :isGirlForm="false" firstLetter="L" />
+        <Formbb :isGirlForm="false" firstLetter="L" @completed="formComplete" />
       </template>
       <template #mainRawContentReverse>
-        <Formbb :isGirlForm="true" firstLetter="T" />
+        <Formbb :isGirlForm="true" firstLetter="T" @completed="formComplete" />
       </template>
     </Slidebb>
 
@@ -47,11 +68,17 @@ function toggleSwitch() {
   @media screen and (max-width: 768px) {
     height: 100vh;
   }
+  
+  transition-timing-function: cubic-bezier(.65,-0.43,.44,1);
+  &.scale-up {
+    transform: scale(2.5);
+  }
 
   .slidebb-component {
     height: 500px;
     border-radius: 15px;
     overflow: hidden;
+  background-color: #333;
     @media screen and (max-width: 768px) {
       height: 100vh;
     }

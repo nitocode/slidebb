@@ -11,6 +11,7 @@ onBeforeUnmount(() => {
 const toggle = ref(false)
 const activeState = ref(false)
 const responsiveMode = ref(false)
+const completed = ref(false)
 const switchSide = () => {
   activeState.value = true
   toggle.value = !toggle.value
@@ -18,6 +19,9 @@ const switchSide = () => {
   setTimeout(() => {
     activeState.value = false
   }, props.duration/2)
+}
+const setCompleted = (bool) => {
+  completed.value = bool
 }
 
 const onResize =() => {
@@ -30,7 +34,8 @@ const onResize =() => {
 onResize()
 
 defineExpose({
-  switchSide
+  switchSide,
+  setCompleted
 })
 const props = defineProps({
   duration: Number,
@@ -48,9 +53,9 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}, {'slidebb-container-responsive': responsiveMode}]">
-  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
-    <div class="side-content-relative">
+<div class="slidebb-container" :class="[toggle ? 'slidebb-forward' : 'slidebb-reverse', {'slidebb-active': activeState}, {'slidebb-container-responsive': responsiveMode}, {'slidebb-container-completed': completed}]">
+  <div class="side-content" :style="{transition: `left ${duration}ms ease-in-out, top ${duration}ms ease-in-out, transform ${duration}ms ease-in-out, background ${duration}ms ease-in-out, width ${duration}ms ease-in-out, height ${duration}ms ease-in-out`, backgroundColor: toggle ? forwardColor : reverseColor}">
+    <div class="side-content-relative" :style="{transition: `opacity ${duration/2}ms ease-in-out`, transitionDelay: `${duration}ms`}">
       <!-- SIDE CONTENT GHOST -->
       <div class="side-content-title side-content-title-ghost side-content-title-left">
         <div class="side-content-title-left-text">
@@ -73,7 +78,7 @@ const props = defineProps({
         </div>
       </div>
       <!-- SIDE TEXT BUTTON -->
-      <button class="side-content-text-button" @click="switchSide()">
+      <button class="side-content-text-button" @click="switchSide()" :style="{transition: `opacity ${duration/2}ms ease-in-out`}">
         <span v-html="sideTextButtonLeft" class="side-content-text-button-ghost"></span>
         <span class="side-content-text-button-left" :style="{transition: `transform ${duration/2}ms ease-in-out, opacity ${duration/2}ms ease-in-out`, transitionDelay: `${toggle ? 0 : duration/2}ms`}" v-html="sideTextButtonLeft"></span>
         <span class="side-content-text-button-right" :style="{transition: `transform ${duration/2}ms ease-in-out, opacity ${duration/2}ms ease-in-out`, transitionDelay: `${toggle ? duration/2 : 0}ms`}" v-html="sideTextButtonRight"></span>
@@ -230,6 +235,7 @@ const props = defineProps({
     left: initial;
     .side-content-title-left-text {
       transform: translateY(-400%) scaleX(1);
+      opacity: 0;
     }
     .side-content-text-button-left {
       transform: translateX(-50%) translateY(-50%);
@@ -244,9 +250,30 @@ const props = defineProps({
   &.slidebb-reverse .side-content {
     .side-content-title-right-text {
       transform: translateY(400%) scaleX(1);
+      opacity: 0;
     }
     .side-content-text-button-right {
       transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}
+
+.slidebb-container-completed {
+  .side-content-text-button, .side-content-relative {
+    opacity: 0;
+  }
+  &.slidebb-forward, &.slidebb-reverse {
+    .side-content {
+      width: 100%;
+      left: 0;
+    }
+  }
+  &.slidebb-container-responsive {
+    &.slidebb-forward, &.slidebb-reverse {
+      .side-content {
+        height: 100%;
+        top: 0;
+      }
     }
   }
 }

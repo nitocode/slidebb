@@ -6,9 +6,9 @@ import Reveal from "./views/Reveal.vue"
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-      { path: '/', component: Home },
-      { path: '/form', component: Form },
-      { path: '/reveal', component: Reveal },
+      { name: 'home', path: '/', component: Home },
+      { name: 'form', path: '/form', component: Form },
+      { name: 'reveal', path: '/reveal', component: Reveal },
     ],
   })
   

@@ -1,12 +1,12 @@
 <script setup>
-
+const props = defineProps({
+  text: String
+})
 </script>
 
 <template>
   <div class="circle-container">
-    <div class="circle-content">
-      Baby's heartbeat
-    </div>
+    <div class="circle-content" v-html="text"></div>
     <div class="pulse-1"></div>
     <div class="pulse-2"></div>
   </div>

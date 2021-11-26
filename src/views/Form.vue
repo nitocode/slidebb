@@ -26,7 +26,7 @@ function formComplete(data) {
     const mainElt = document.querySelector('.main-container')
     mainElt.addEventListener('transitionend', () => {
       console.log('Transition ended');
-      router.push('/reveal')
+      router.push({ name: 'reveal', params: { isGirlForm: data.isGirlForm } })
     });
 
   }, transitionDuration.value * 2)

@@ -7,6 +7,19 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
   
 const step = ref(0)
+const stepData = [
+  { confettiColors: null },
+  { confettiColors: null },
+  { confettiColors: ["#dc8ec2"] },
+  { confettiColors: ["#dc8ec2", "#78ade0"] },
+  { confettiColors: ["#dc8ec2"] },
+  { confettiColors: ["#78ade0"] },
+  { confettiColors: ["#dc8ec2", "#78ade0"] },
+  { confettiColors: ["#78ade0"] },
+  { confettiColors: ["#dc8ec2", "#78ade0"] },
+  { confettiColors: null },
+  { confettiColors: null },
+]
 const pulseText = ref("")
 const fireCount = ref(0)
 const myConfetti = ref(null)
@@ -18,7 +31,7 @@ const waitTextForNextStep = () => {
   setTimeout(() => {
     step.value++
     if (step.value > 6) {
-      pulseText.value = "Reveal the gender"
+      pulseText.value = "Tap to reveal<br>the gender"
     }
   }, 6000);
 }
@@ -44,17 +57,18 @@ const fire = () => {
 
   const firePower = distance*100
   console.log('firePower', firePower)
-
+  
   myConfetti.value({
     particleCount: 1 + distance*100,
     startVelocity: firePower,
     spread: 55,
     angle: angle,
-    origin: { x: downPoint.value.x, y: downPoint.value.y }
+    origin: { x: downPoint.value.x, y: downPoint.value.y },
+    colors: stepData[step.value].confettiColors
   });
 
   if (firePower > 20 && (step.value === 3 || step.value === 6)) {
-    if (fireCount.value === 2) {
+    if (fireCount.value === 3) {
       fireCount.value = 0
       step.value++
       waitTextForNextStep()

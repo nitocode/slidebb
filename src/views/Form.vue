@@ -95,4 +95,8 @@ function formComplete(data) {
     transform: scale(0.8);
   }
 }
+:deep(.slidebb-container .side-content .side-content-title h2) {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5em;
+}
 </style>

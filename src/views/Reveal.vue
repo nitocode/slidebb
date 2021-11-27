@@ -208,7 +208,7 @@ const fire = () => {
   })
 
   if (firePower > 15 && (step.value === 3 || step.value === 6)) {
-    if (fireCount.value === 2) {
+    if (fireCount.value > 2) {
       fireCount.value = 0
       step.value++
       waitTextForNextStep(2000)
@@ -260,12 +260,12 @@ defineExpose({
     <div class="pulse-container relative" :class="[{'pulse-container-aside': step > 0 && step < 8}, {'pulse-container-girl': route.params.isGirlForm != null && route.params.isGirlForm === 'true'}, {'pulse-container-boy': route.params.isGirlForm != null && route.params.isGirlForm === 'false'}, {'pulse-container-charging': step === 9}, {'pulse-container-expanding': step >= 10}, step >= 10 ? 'z-0': 'z-10']">
       <Pulse @click="nextStepPulse()" :text="pulseText" />
     </div>
-    <p class="instruction-text w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all ease-in-out z-0 text-lg lg:text-4xl text-center" :class="[ {'opacity-100': step === 1 || step === 4 || step === 7}]">
-      <span v-if="step < 3">Pull on the screen to discover our baby's gender...</span>
-      <span v-if="step >= 3 && step < 6">Is it a girl?</span>
-      <span v-if="step >= 6 && step < 9">Or is it a boy?</span>
+    <p class="instruction-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all ease-in-out z-0 text-2xl lg:text-6xl text-center" :class="[ {'opacity-100': step === 1 || step === 4 || step === 7}]">
+      <span v-if="step < 3">Pull on the screen to discover our baby's&nbsp;gender...</span>
+      <span class="text-4xl lg:text-6xl" v-if="step >= 3 && step < 6">Is it a girl?</span>
+      <span class="text-4xl lg:text-6xl" v-if="step >= 6 && step < 9">Or is it a boy?</span>
     </p>
-    <p class="final-text w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-lg lg:text-4xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
+    <p class="final-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-3xl lg:text-6xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
       <span v-if="isGirl">We're having a baby girl!!!</span>
       <span v-else>We're having a baby boy!!!</span>
     </p>
@@ -368,6 +368,8 @@ defineExpose({
   width: 280px;
   height: 280px;
   transition: all 2s ease-in-out;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2em;
   :deep(.circle-content) {
     transition: opacity 1s ease-in-out;
   }

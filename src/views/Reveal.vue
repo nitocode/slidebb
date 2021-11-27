@@ -154,6 +154,9 @@ const finalFire = () => {
     prideAnimationEnd = Date.now() + prideDuration
     setTimeout(() => {
       prideFire()
+      setTimeout(() => {
+        step.value++
+      }, prideDuration + 500)
     }, 500)
   }, 200)
 }
@@ -254,7 +257,7 @@ defineExpose({
 <div class="reveal-container relative h-full w-full flex justify-center items-center overflow-hidden" :class="`reveal-container-${step}`">
     <!-- CONFETTI CANVAS -->
     <canvas class="absolute w-full h-full z-10" id="confetti"></canvas>
-    <div class="pulse-container relative" :class="[{'pulse-container-aside': step > 0 && step < 8}, {'pulse-container-girl': route.params.isGirlForm != null && route.params.isGirlForm === 'true'}, {'pulse-container-boy': route.params.isGirlForm != null && route.params.isGirlForm === 'false'}, {'pulse-container-charging': step === 9}, {'pulse-container-expanding': step === 10}, step >= 10 ? 'z-0': 'z-10']">
+    <div class="pulse-container relative" :class="[{'pulse-container-aside': step > 0 && step < 8}, {'pulse-container-girl': route.params.isGirlForm != null && route.params.isGirlForm === 'true'}, {'pulse-container-boy': route.params.isGirlForm != null && route.params.isGirlForm === 'false'}, {'pulse-container-charging': step === 9}, {'pulse-container-expanding': step >= 10}, step >= 10 ? 'z-0': 'z-10']">
       <Pulse @click="nextStepPulse()" :text="pulseText" />
     </div>
     <p class="instruction-text w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all ease-in-out z-0 text-lg lg:text-4xl text-center" :class="[ {'opacity-100': step === 1 || step === 4 || step === 7}]">
@@ -262,10 +265,27 @@ defineExpose({
       <span v-if="step >= 3 && step < 6">Is it a girl?</span>
       <span v-if="step >= 6 && step < 9">Or is it a boy?</span>
     </p>
-    <p class="final-text w-11/12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all delay-200 text-lg lg:text-4xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step === 10}">
+    <p class="final-text w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-lg lg:text-4xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
       <span v-if="isGirl">We're having a baby girl!!!</span>
       <span v-else>We're having a baby boy!!!</span>
     </p>
+    <!-- THANKS -->
+    <div class="thanks-container opacity-0 w-11/12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all text-center flex flex-col justify-center items-center" :class="step >= 11 ? 'opacity-100 z-10' : 'z-0'">
+      <img class="afc-logo mb-8" src="./../assets/afc-logo.png" alt="A french couple Logo">
+      <p class="mb-4 text-lg lg:text-4xl">Thank you for participating!</p>
+      <p class="mb-2 text-md lg-text-3xl">If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can validate your participation for the little prize draw</p>
+      <p class="text-lg lg-text-4xl mb-8">My code: PE51VD68</p>
+      <p class="mb-2 text-lg lg:text-4xl">Support us!</p>
+      <p class="text-md lg-text-2xl">Share, like, follow, and see you tomorrow!</p>
+      <div class="my-4 flex flex-row justify-center items-center">
+        <a class="instagram-link" href="https://www.instagram.com/a_french_couple/" target="_blank">
+          <img src="./../assets/instagram.svg" alt="instagram logo">
+        </a>
+        <a class="twitter-link ml-6 mr-4" href="https://twitter.com/afrenchcouple" target="_blank">
+          <img src="./../assets/twitter.svg" alt="twitter logo">
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -274,6 +294,14 @@ defineExpose({
   
   .instruction-text {
     transition-duration: 2s;
+  }
+  .final-text {
+    transition-duration: 1s;
+    transform: translate(-50%, -50%);
+  }
+  .thanks-container {
+    transition-duration: 1s;
+    transition-delay: 1s;
   }
 
   &-0 {
@@ -329,6 +357,12 @@ defineExpose({
       transition-timing-function: cubic-bezier(.42,.01,.42,1.41);
     }
   }
+  &-11 {
+    .final-text {
+      transform: translate(-50%, calc(-45vh + 100%));
+      transition-timing-function: ease-in-out;
+    }
+  }
 }
 .pulse-container {
   width: 280px;
@@ -382,6 +416,14 @@ defineExpose({
   }
 }
 
+.thanks-container {
+  .twitter-link {
+    width: 50px;
+  }
+  .instagram-link {
+    width: 100px;
+  }
+}
 @keyframes vibrate {
   from {transform: translateX(0px);}
   to {transform: translateX(20px);}

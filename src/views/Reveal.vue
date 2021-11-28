@@ -5,7 +5,7 @@ import * as confetti from 'canvas-confetti'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const isGirl = ref(false)
+const isGirl = ref(true)
 
 const basedColors = [
   { colorName: "pink", colorHex: "#dc8ec2", colorsGroup: ["#78ade0", "#2d6ead"]},

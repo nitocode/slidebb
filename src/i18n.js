@@ -31,7 +31,7 @@ const messages = {
         heartbeat: `Baby's heartbeat`,
         tap: `Tap to reveal<br>the gender`
       },
-      instruction: `Drag the screen to discover our baby's&nbsp;gender...`,
+      instruction: `Drag and drop on the screen to discover our baby's&nbsp;gender...`,
       questionBoy: `or is it a boy?`,
       questionGirl: `Is it a girl...`,
       babyGirl: `We're having a baby girl!!!`,

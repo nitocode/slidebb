@@ -24,6 +24,7 @@ const finalColor = basedColors.filter(elt => {
 const canvasLine = ref(null)
 const isLineVisible = ref(false)
 
+const participationCode = ref("")
 
 const step = ref(0)
 const stepData = [
@@ -286,6 +287,7 @@ const drawLine = (ctx, begin, end, stroke = 'black', width = 1) => {
 }
 
 onMounted(() => {
+  participationCode.value = window.localStorage.getItem('code')
   canvasLine.value = document.getElementById("line")
 
   pulseText.value = t('reveal.pulse.heartbeat')
@@ -365,7 +367,7 @@ defineExpose({
       <img class="afc-logo mb-8" src="./../assets/afc-logo.png" alt="A french couple Logo">
       <p class="mb-4 text-lg lg:text-4xl">{{ $t('reveal.thanks.title') }}</p>
       <p class="mb-2 text-md lg-text-3xl" v-html="$t('reveal.thanks.giveCode')"></p>
-      <p class="text-lg lg-text-4xl mb-8">{{ $t('reveal.thanks.myCode') }} PE51VD68</p>
+      <p class="text-lg lg-text-4xl mb-8">{{ $t('reveal.thanks.myCode') }} {{ participationCode ? participationCode : 'N0CET54F'}}</p>
       <p class="mb-2 text-lg lg:text-4xl">{{ $t('reveal.thanks.support') }}</p>
       <p class="text-md lg-text-2xl">{{ $t('reveal.thanks.share') }}</p>
       <div class="my-4 flex flex-row justify-center items-center">

@@ -5,15 +5,24 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const babyName = ref("");
-const size = ref(40);
+const height = ref(40);
 const date = ref(12);
 const weight = ref(3);
 const errorMessage = ref("");
 
+const generateCode = (length) => {
+  let result = "";
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  for ( let i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
 const submit = () => {
-  const data = {
+  let data = {
     babyName: babyName.value,
-    size: Number(size.value),
+    height: Number(height.value),
     weight: Number(weight.value),
     date: Number(date.value),
     isGirlForm: props.isGirlForm
@@ -21,7 +30,7 @@ const submit = () => {
 
   try {
     // Data validation
-    if (isNaN(data.size) || isNaN(data.weight) || isNaN(data.date) || data.size < 35 || data.weight < 2 || data.date < 1 || data.size > 65 || data.weight > 5 || data.date > 31) {
+    if (isNaN(data.height) || isNaN(data.weight) || isNaN(data.date) || data.height < 35 || data.weight < 2 || data.date < 1 || data.height > 65 || data.weight > 5 || data.date > 31) {
       throw new Error(t('form.error'));
     }
 
@@ -31,6 +40,12 @@ const submit = () => {
       throw new Error(t('form.error'));
     }
 
+    // GENERATE CODE
+    data.code = generateCode(8);
+
+    window.localStorage.setItem("code", data.code);
+
+    // SEND DATA
     console.log("data:", data);
 
     // Go to reveal page
@@ -63,11 +78,11 @@ const props = defineProps({
         <span class="label-text">{{ $t('form.height') }}</span>
       </label> 
       <label class="input-group input-group-md">
-        <input id="size" :class="isGirlForm ? 'input-secondary' : 'input-info'" class="input input-sm input-bordered input-md w-full" type="number" v-model="size" />
+        <input id="height" :class="isGirlForm ? 'input-secondary' : 'input-info'" class="input input-sm input-bordered input-md w-full" type="number" v-model="height" />
         <span>{{ $t('form.heightUnit') }}</span>
       </label>
 
-      <input type="range" min="35" max="65" v-model="size" class="range range-info mt-2"> 
+      <input type="range" min="35" max="65" v-model="height" class="range range-info mt-2"> 
     </div> 
     <div class="form-control">
       <label class="label">

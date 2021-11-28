@@ -23,6 +23,7 @@ const finalColor = basedColors.filter(elt => {
 
 const canvasLine = ref(null)
 const isLineVisible = ref(false)
+const lineSize = ref(10)
 
 const participationCode = ref("")
 
@@ -46,7 +47,7 @@ const fireCount = ref(0)
 const myConfetti = ref(null)
 const vibrateDuration = 3 * 1000
 let animationEnd = Date.now() + vibrateDuration
-const prideDuration = 5 * 1000
+const prideDuration = 6 * 1000
 let prideAnimationEnd = Date.now() + prideDuration
 
 const downPoint = ref({x: 0, y: 0})
@@ -161,7 +162,7 @@ const startDrawLine = (x, y) => {
     const ctx = canvasLine.getContext('2d');
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
-    drawLine(ctx, [x, y], [x, y], 'white', 20);
+    drawLine(ctx, [x, y], [x, y], 'white', lineSize.value);
   }
   isLineVisible.value = true
   document.getElementById("confetti").addEventListener('pointermove', movingPointer(x,y));
@@ -178,7 +179,7 @@ const movingPointer = (x,y) => {
       const ctx = canvasLine.value.getContext('2d');
       ctx.canvas.width  = window.innerWidth;
       ctx.canvas.height = window.innerHeight;
-      drawLine(ctx, [x, y], [e.x, e.y], 'white', 20 - distance * 20);
+      drawLine(ctx, [x, y], [e.x, e.y], 'white', lineSize.value - distance * lineSize.value);
     }
   }
 }
@@ -281,6 +282,9 @@ const drawLine = (ctx, begin, end, stroke = 'black', width = 1) => {
     }
 
     ctx.beginPath();
+    ctx.lineCap = "round";
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "black";
     ctx.moveTo(...begin);
     ctx.lineTo(...end);
     ctx.stroke();
@@ -352,7 +356,7 @@ defineExpose({
       <span class="text-4xl lg:text-6xl" v-if="step >= 3 && step < 6">{{ $t('reveal.questionGirl') }}</span>
       <span class="text-4xl lg:text-6xl" v-if="step >= 6 && step < 9">{{ $t('reveal.questionBoy') }}</span>
     </p>
-    <p class="final-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-3xl lg:text-6xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
+    <p class="final-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-2xl lg:text-6xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
       <span v-if="isGirl">
         {{ $t('reveal.babyGirl') }}<br>
         <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">{{ $t('reveal.babyGirlSubtitle') }}</span>
@@ -453,7 +457,7 @@ defineExpose({
   &-11 {
     .final-text {
       transition-timing-function: ease-in-out;
-      transform: translate(-50%, calc(-45vh + 100%));
+      transform: translate(-50%, calc(-50vh + 100%));
       @media screen and (max-width: 768px) {
         transform: translate(-50%, calc(-50vh + 90%));
       }
@@ -467,7 +471,7 @@ defineExpose({
   font-family: 'Dancing Script', cursive;
   font-size: 2em;
   :deep(.circle-content) {
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out, font-size 2s ease-in-out;
   }
 
   &-aside {
@@ -478,7 +482,8 @@ defineExpose({
       transform: translateY(calc(-50vw - 30%));
     }
     :deep(.circle-content) {
-      opacity: 0
+      opacity: 0;
+      font-size: 3px;
     }
   }
 

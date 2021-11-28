@@ -8,14 +8,11 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 
 ## TODO:
-- Add a second color for the reveal expansion and the pride
-- Add a line when the user is firing confettis
-- inverse boy and girl color and add a little explanation
-- Fix small mobile screen display
 - Create a home page
 - Add some shadow on the side form
 - i18n
-- Deploy the app
-- Create API
-- Insert data
 - Generate code
+- Deploy the app
+- Create API (strapi)
+- Insert data
+- Go live

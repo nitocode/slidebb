@@ -5,11 +5,11 @@ import * as confetti from 'canvas-confetti'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const isGirl = ref(true)
+const isGirl = ref(false)
 
 const basedColors = [
-  { colorName: "pink", colorHex: "#dc8ec2"},
-  { colorName: "blue", colorHex: "#78ade0"},
+  { colorName: "pink", colorHex: "#dc8ec2", colorsGroup: ["#78ade0", "#2d6ead"]},
+  { colorName: "blue", colorHex: "#78ade0", colorsGroup: ["#dc8ec2", "#c24097"]},
   { colorName: "purple", colorHex: "#c91abe"}
 ]
 
@@ -17,6 +17,9 @@ const finalColor = basedColors.filter(elt => {
   const colorToPick = isGirl.value ? "pink": "blue"
   return elt.colorName === colorToPick
 })[0]
+
+const canvasLine = ref(null)
+const isLineVisible = ref(false)
 
 
 const step = ref(0)
@@ -135,6 +138,52 @@ const firePulse = (counter) => {
   }
 }
 
+const pageClick = (event) => {
+  if (step.value >= 11) {
+    myConfetti.value({
+      particleCount: 50,
+      startVelocity: 30,
+      spread: 360,
+      angle: 0,
+      origin: { x: event.x / window.innerWidth, y: event.y / window.innerHeight },
+      colors: finalColor.colorsGroup
+    })
+  }
+}
+
+const startDrawLine = (x, y) => {
+  const canvasLine = document.getElementById('line');
+  if (canvasLine.getContext) {
+    const ctx = canvasLine.getContext('2d');
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    drawLine(ctx, [x, y], [x, y], 'white', 20);
+  }
+  isLineVisible.value = true
+  document.getElementById("confetti").addEventListener('pointermove', movingPointer(x,y));
+}
+
+const movingPointer = (x,y) => {
+  return (e) => {
+    if (canvasLine.value.getContext) {
+      // values between 0 and 1
+      const dx = -(x / window.innerWidth - e.x / window.innerWidth)
+      const dy = y / window.innerHeight - e.y / window.innerHeight
+      const distance = Math.hypot(dx, dy)
+
+      const ctx = canvasLine.value.getContext('2d');
+      ctx.canvas.width  = window.innerWidth;
+      ctx.canvas.height = window.innerHeight;
+      drawLine(ctx, [x, y], [e.x, e.y], 'white', 20 - distance * 20);
+    }
+  }
+}
+
+const endDrawLine = () => {
+  isLineVisible.value = false
+  document.getElementById("confetti").removeEventListener('pointermove', movingPointer);
+}
+
 const finalFire = () => {
   const pulseElt = document.querySelector(".pulse-container")
   const pulseRect = pulseElt.getBoundingClientRect()
@@ -149,7 +198,7 @@ const finalFire = () => {
       spread: 360,
       angle: 0,
       origin: { x: centerX / window.innerWidth, y: centerY / window.innerHeight },
-      colors: [finalColor.colorHex]
+      colors: finalColor.colorsGroup
     })
     prideAnimationEnd = Date.now() + prideDuration
     setTimeout(() => {
@@ -168,14 +217,14 @@ const prideFire = () => {
     angle: 60,
     spread: 55,
     origin: { x: 0 },
-    colors: [finalColor.colorHex]
+    colors: finalColor.colorsGroup
   });
   myConfetti.value({
     particleCount: 2,
     angle: 120,
     spread: 55,
     origin: { x: 1 },
-    colors: [finalColor.colorHex]
+    colors: finalColor.colorsGroup
   });
 
   if (Date.now() < prideAnimationEnd) {
@@ -193,7 +242,7 @@ const fire = () => {
 
   console.log('ang:', angle)
 
-  console.log('distance:', Math.hypot(dx, dy))
+  console.log('distance:', distance)
 
   const firePower = distance*100
   console.log('firePower', firePower)
@@ -218,7 +267,24 @@ const fire = () => {
   }
 }
 
+const drawLine = (ctx, begin, end, stroke = 'black', width = 1) => {
+    if (stroke) {
+        ctx.strokeStyle = stroke;
+    }
+
+    if (width) {
+        ctx.lineWidth = width;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(...begin);
+    ctx.lineTo(...end);
+    ctx.stroke();
+}
+
 onMounted(() => {
+  canvasLine.value = document.getElementById("line")
+
   pulseText.value = "Baby's heartbeat"
   const confettiCanvas = document.getElementById("confetti")
   myConfetti.value = confetti.create(confettiCanvas, {
@@ -230,6 +296,7 @@ onMounted(() => {
     console.log('Pointer down event', event);
     downPoint.value.x = event.x / window.innerWidth
     downPoint.value.y = event.y / window.innerHeight
+    startDrawLine(event.x, event.y)
   });
 
   confettiCanvas.addEventListener('pointerup', (event) => {
@@ -237,6 +304,7 @@ onMounted(() => {
     upPoint.value.x = event.x / window.innerWidth
     upPoint.value.y = event.y / window.innerHeight
     fire()
+    endDrawLine()
   });
 
   document.querySelector(".instruction-text").addEventListener('transitionend', () => {
@@ -244,30 +312,50 @@ onMounted(() => {
       step.value++
     }
   });
+
+  const resizeCanvas = () => {
+    canvasLine.value.width = window.innerWidth;
+    canvasLine.value.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas, false);
 })
 
 
 defineExpose({
   nextStepPulse,
-  fire
+  fire,
+  pageClick
 })
 </script>
 
 <template>
-<div class="reveal-container relative h-full w-full flex justify-center items-center overflow-hidden" :class="`reveal-container-${step}`">
+<div class="reveal-container relative h-full w-full flex justify-center items-center overflow-hidden" :class="`reveal-container-${step}`" @click="pageClick($event)">
     <!-- CONFETTI CANVAS -->
     <canvas class="absolute w-full h-full z-10" id="confetti"></canvas>
-    <div class="pulse-container relative" :class="[{'pulse-container-aside': step > 0 && step < 8}, {'pulse-container-girl': route.params.isGirlForm != null && route.params.isGirlForm === 'true'}, {'pulse-container-boy': route.params.isGirlForm != null && route.params.isGirlForm === 'false'}, {'pulse-container-charging': step === 9}, {'pulse-container-expanding': step >= 10}, step >= 10 ? 'z-0': 'z-10']">
+    <!-- LINE CANVAS -->
+    <canvas v-show="isLineVisible && step < 11" class="absolute w-full h-full z-0" id="line"></canvas>
+
+    <!-- PULSE -->
+    <div class="pulse-container relative" :class="[{'pulse-container-aside': step > 0 && step < 8}, {'pulse-container-girl': route.params.isGirlForm != null && route.params.isGirlForm === 'true'}, {'pulse-container-boy': route.params.isGirlForm != null && route.params.isGirlForm === 'false'}, {'pulse-container-charging': step === 9}, {'pulse-container-expanding': step >= 10}, step >= 10 || isLineVisible ? 'z-0': 'z-10']">
       <Pulse @click="nextStepPulse()" :text="pulseText" />
     </div>
+
+    <!-- TEXTS -->
     <p class="instruction-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all ease-in-out z-0 text-2xl lg:text-6xl text-center" :class="[ {'opacity-100': step === 1 || step === 4 || step === 7}]">
       <span v-if="step < 3">Pull on the screen to discover our baby's&nbsp;gender...</span>
       <span class="text-4xl lg:text-6xl" v-if="step >= 3 && step < 6">Is it a girl?</span>
       <span class="text-4xl lg:text-6xl" v-if="step >= 6 && step < 9">Or is it a boy?</span>
     </p>
     <p class="final-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-3xl lg:text-6xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
-      <span v-if="isGirl">We're having a baby girl!!!</span>
-      <span v-else>We're having a baby boy!!!</span>
+      <span v-if="isGirl">
+        We're having a baby girl!!!<br>
+        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">A beautiful blue smurfette</span>
+      </span>
+      <span v-else>
+        We're having a baby boy!!!<br>
+        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">a Pink Floyd newcomer?</span>
+      </span>
     </p>
     <!-- THANKS -->
     <div class="thanks-container opacity-0 w-11/12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all text-center flex flex-col justify-center items-center" :class="step >= 11 ? 'opacity-100 z-10' : 'z-0'">
@@ -359,8 +447,11 @@ defineExpose({
   }
   &-11 {
     .final-text {
-      transform: translate(-50%, calc(-45vh + 100%));
       transition-timing-function: ease-in-out;
+      transform: translate(-50%, calc(-45vh + 100%));
+      @media screen and (max-width: 768px) {
+        transform: translate(-50%, calc(-50vh + 90%));
+      }
     }
   }
 }
@@ -424,6 +515,10 @@ defineExpose({
   }
   .instagram-link {
     width: 100px;
+  }
+  
+  @media screen and (max-width: 400px) and (max-height: 700px) {
+    transform: translateX(-50%) translateY(-45%) scale(0.8) ;
   }
 }
 @keyframes vibrate {

@@ -8,8 +8,6 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 
 ## TODO:
-- i18n
-- metadata et favicon
 - Generate code
 - Deploy the app
 - Create API (strapi)

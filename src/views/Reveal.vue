@@ -3,8 +3,11 @@ import Pulse from './../components/Pulse.vue'
 import { ref, onMounted } from 'vue'
 import * as confetti from 'canvas-confetti'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const route = useRoute()
+
 const isGirl = ref(true)
 
 const basedColors = [
@@ -52,7 +55,7 @@ const waitTextForNextStep = (duration) => {
   setTimeout(() => {
     step.value++
     if (step.value > 6) {
-      pulseText.value = "Tap to reveal<br>the gender"
+      pulseText.value = t('reveal.pulse.tap')
     }
   }, duration);
 }
@@ -285,7 +288,7 @@ const drawLine = (ctx, begin, end, stroke = 'black', width = 1) => {
 onMounted(() => {
   canvasLine.value = document.getElementById("line")
 
-  pulseText.value = "Baby's heartbeat"
+  pulseText.value = t('reveal.pulse.heartbeat')
   const confettiCanvas = document.getElementById("confetti")
   myConfetti.value = confetti.create(confettiCanvas, {
     resize: true,
@@ -343,28 +346,28 @@ defineExpose({
 
     <!-- TEXTS -->
     <p class="instruction-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all ease-in-out z-0 text-2xl lg:text-6xl text-center" :class="[ {'opacity-100': step === 1 || step === 4 || step === 7}]">
-      <span v-if="step < 3">Pull on the screen to discover our baby's&nbsp;gender...</span>
-      <span class="text-4xl lg:text-6xl" v-if="step >= 3 && step < 6">Is it a girl?</span>
-      <span class="text-4xl lg:text-6xl" v-if="step >= 6 && step < 9">Or is it a boy?</span>
+      <span v-if="step < 3" v-html="$t('reveal.instruction')"></span>
+      <span class="text-4xl lg:text-6xl" v-if="step >= 3 && step < 6">{{ $t('reveal.questionGirl') }}</span>
+      <span class="text-4xl lg:text-6xl" v-if="step >= 6 && step < 9">{{ $t('reveal.questionBoy') }}</span>
     </p>
     <p class="final-text dancing-script w-11/12 absolute top-1/2 left-1/2 opacity-0 transition-all delay-200 text-3xl lg:text-6xl text-center" :class=" {'opacity-100 text-xl lg:text-6xl': step >= 10}">
       <span v-if="isGirl">
-        We're having a baby girl!!!<br>
-        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">A beautiful blue smurfette</span>
+        {{ $t('reveal.babyGirl') }}<br>
+        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">{{ $t('reveal.babyGirlSubtitle') }}</span>
       </span>
       <span v-else>
-        We're having a baby boy!!!<br>
-        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">a Pink Floyd newcomer?</span>
+        {{ $t('reveal.babyBoy') }}<br>
+        <span class="text-xl lg:text-3xl transition duration-1000 delay-200 opacity-0" :class="{'opacity-100': step < 11}">{{ $t('reveal.babyBoySubtitle') }}</span>
       </span>
     </p>
     <!-- THANKS -->
     <div class="thanks-container opacity-0 w-11/12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all text-center flex flex-col justify-center items-center" :class="step >= 11 ? 'opacity-100 z-10' : 'z-0'">
       <img class="afc-logo mb-8" src="./../assets/afc-logo.png" alt="A french couple Logo">
-      <p class="mb-4 text-lg lg:text-4xl">Thank you for participating!</p>
-      <p class="mb-2 text-md lg-text-3xl">If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can validate your participation for the little prize draw</p>
-      <p class="text-lg lg-text-4xl mb-8">My code: PE51VD68</p>
-      <p class="mb-2 text-lg lg:text-4xl">Support us!</p>
-      <p class="text-md lg-text-2xl">Share, like, follow, and see you tomorrow!</p>
+      <p class="mb-4 text-lg lg:text-4xl">{{ $t('reveal.thanks.title') }}</p>
+      <p class="mb-2 text-md lg-text-3xl" v-html="$t('reveal.thanks.giveCode')"></p>
+      <p class="text-lg lg-text-4xl mb-8">{{ $t('reveal.thanks.myCode') }} PE51VD68</p>
+      <p class="mb-2 text-lg lg:text-4xl">{{ $t('reveal.thanks.support') }}</p>
+      <p class="text-md lg-text-2xl">{{ $t('reveal.thanks.share') }}</p>
       <div class="my-4 flex flex-row justify-center items-center">
         <a class="instagram-link" href="https://www.instagram.com/a_french_couple/" target="_blank">
           <img src="./../assets/instagram.svg" alt="instagram logo">

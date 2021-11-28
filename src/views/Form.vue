@@ -41,12 +41,12 @@ function formComplete(data) {
       :duration="transitionDuration"
       :breakPoint="768"
       :smoothMainContentTransition="true"
-      sideTitleLeft="It's a girl" 
-      sideSubtitleLeft="Oh you think it's gonna be a girl?" 
-      sideTextButtonLeft="CHANGE FOR A BOY!" 
-      sideTitleRight="It's a boy" 
-      sideSubtitleRight="Oh you think it's gonna be a boy?" 
-      sideTextButtonRight="CHANGE FOR A GIRL!"
+      :sideTitleLeft="$t('form.slidebb.sideTitleLeft')" 
+      :sideSubtitleLeft="$t('form.slidebb.sideSubtitleLeft')" 
+      :sideTextButtonLeft="$t('form.slidebb.sideTextButtonLeft')" 
+      :sideTitleRight="$t('form.slidebb.sideTitleRight')" 
+      :sideSubtitleRight="$t('form.slidebb.sideSubtitleRight')" 
+      :sideTextButtonRight="$t('form.slidebb.sideTextButtonRight')"
       forwardColor="#78ade0"
       reverseColor="#dc8ec2">
       <template #mainRawContentForward>

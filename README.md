@@ -8,8 +8,6 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 
 ## TODO:
-- Create a home page
-- Add some shadow on the side form
 - i18n
 - Generate code
 - Deploy the app

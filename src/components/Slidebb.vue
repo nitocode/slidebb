@@ -184,7 +184,7 @@ const props = defineProps({
       background-color: transparent;
       font-size: 0.7em;
       width: 200px;
-      padding: 12px 30px;
+      padding: 12px;
       margin-top: 30px;
       border-radius: 9999px;
       border: 2px white solid;
@@ -196,6 +196,7 @@ const props = defineProps({
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
+        width: 90%;
       }
       &-ghost  {
         position: relative;

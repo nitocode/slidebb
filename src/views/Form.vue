@@ -43,10 +43,10 @@ function formComplete(data) {
       :smoothMainContentTransition="true"
       sideTitleLeft="It's a girl" 
       sideSubtitleLeft="Oh you think it's gonna be a girl?" 
-      sideTextButtonLeft="IT'S A BOY!" 
+      sideTextButtonLeft="CHANGE FOR A BOY!" 
       sideTitleRight="It's a boy" 
       sideSubtitleRight="Oh you think it's gonna be a boy?" 
-      sideTextButtonRight="IT'S A GIRL!"
+      sideTextButtonRight="CHANGE FOR A GIRL!"
       forwardColor="#78ade0"
       reverseColor="#dc8ec2">
       <template #mainRawContentForward>
@@ -94,6 +94,10 @@ function formComplete(data) {
   @media screen and (max-width: 370px) {
     transform: scale(0.8);
   }
+}
+:deep(.slidebb-container .side-content) {
+  // box-shadow: 2px 5px 16px 0px #0B325E, 0px 6px 15px 14px rgba(0,0,0,0.35);
+  box-shadow: 0px 6px 15px 14px rgba(0,0,0,0.35);
 }
 :deep(.slidebb-container .side-content .side-content-title h2) {
   font-family: 'Dancing Script', cursive;

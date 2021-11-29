@@ -40,7 +40,7 @@ const messages = {
       babyBoySubtitle: `a Pink Floyd newcomer?`,
       thanks: {
         title: `Thank you for participating!`,
-        giveCode: `If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can validate your participation for the little prize draw`,
+        giveCode: `If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can identify your prediction`,
         myCode: `My code:`,
         support: `Support us!`,
         share: `Share, like, follow, and see you tomorrow!`,
@@ -86,7 +86,7 @@ const messages = {
       babyBoySubtitle: `un nouveau Pink Floyd ?`,
       thanks: {
         title: `Merci d'avoir participé !`,
-        giveCode: `Si vous êtes un.e ami.e, collègue ou membre de la famille, donnez-nous le code que vous venez d'avoir<br class="hidden lg:block">&nbsp;pour que l'on puisse valider votre participation au tirage au sort`,
+        giveCode: `Si vous êtes un.e ami.e, collègue ou membre de la famille, donnez-nous le code que vous venez d'avoir<br class="hidden lg:block">&nbsp;pour que l'on puisse identifier votre prédiction`,
         myCode: `Mon code:`,
         support: `Nous soutenir`,
         share: `Share, like, follow, and see you tomorrow!`,

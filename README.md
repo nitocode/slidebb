@@ -9,7 +9,5 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ## TODO:
 - Deploy the app
-- Create API (strapi)
-- Insert data
 - Wording verification
 - Go live

@@ -19,7 +19,20 @@ const generateCode = (length) => {
   return result;
 }
 
-const submit = () => {
+const parseJSON = (resp) => {
+  return (resp.json ? resp.json() : resp);
+}
+
+const checkStatus = (resp) => {
+  if (resp.status >= 200 && resp.status < 300) {
+    return resp;
+  }
+  return parseJSON(resp).then((resp) => {
+    throw resp;
+  });
+}
+
+const submit = async () => {
   let data = {
     babyName: babyName.value,
     height: Number(height.value),
@@ -46,6 +59,13 @@ const submit = () => {
     window.localStorage.setItem("code", data.code);
 
     // SEND DATA
+    const response = await fetch('https://strapi-g6om.onrender.com/predictions', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }).then(checkStatus)
+      .then(parseJSON);
+    console.log(response);
     console.log("data:", data);
 
     // Go to reveal page

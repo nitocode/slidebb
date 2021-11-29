@@ -100,7 +100,7 @@ function formComplete(data) {
   box-shadow: 0px 6px 15px 14px rgba(0,0,0,0.35);
 }
 :deep(.slidebb-container .side-content .side-content-title h2) {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Dancing Script', cursive, Verdana ;
   font-size: 2.5em;
 }
 </style>

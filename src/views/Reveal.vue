@@ -468,7 +468,7 @@ defineExpose({
   width: 280px;
   height: 280px;
   transition: all 2s ease-in-out;
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Dancing Script', cursive, Verdana ;
   font-size: 2em;
   :deep(.circle-content) {
     transition: opacity 1s ease-in-out, font-size 2s ease-in-out;

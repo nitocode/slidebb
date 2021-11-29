@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 body {
-  font-family: cursive;
+  font-family: cursive, Verdana ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
 
 .dancing-script {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Dancing Script', cursive, Verdana ;
 }

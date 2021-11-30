@@ -265,7 +265,9 @@ const fire = () => {
     colors: step.value >= 10 ? [finalColor.colorHex] : stepData[step.value].confettiColors
   })
 
-  if (firePower > 15 && (step.value === 3 || step.value === 6)) {
+  if (firePower > 15 && step.value === 0) {
+    nextStepPulse()
+  } else if (firePower > 15 && (step.value === 3 || step.value === 6)) {
     if (fireCount.value > 0) {
       fireCount.value = 0
       step.value++

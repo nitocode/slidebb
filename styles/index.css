@@ -8,3 +8,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
+
+@media screen and (max-width: 380px) and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    margin-bottom: 50px;
+  }
+}

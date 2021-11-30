@@ -411,6 +411,9 @@ defineExpose({
 
 <style lang="scss" scoped>
 .reveal-container {
+  .afc-logo {
+    width: 400px;
+  }
   
   .instruction-text {
     transition-duration: 2s;

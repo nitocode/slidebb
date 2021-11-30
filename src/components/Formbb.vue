@@ -8,6 +8,7 @@ const babyName = ref("");
 const height = ref(40);
 const date = ref(12);
 const weight = ref(3);
+const isLoading = ref(false);
 const errorMessage = ref("");
 
 const generateCode = (length) => {
@@ -32,7 +33,7 @@ const checkStatus = (resp) => {
   });
 }
 
-const submit = async () => {
+const submit = () => {
   let data = {
     babyName: babyName.value,
     height: Number(height.value),
@@ -42,36 +43,41 @@ const submit = async () => {
   }
 
   try {
-    // Data validation
-    if (isNaN(data.height) || isNaN(data.weight) || isNaN(data.date) || data.height < 35 || data.weight < 2 || data.date < 1 || data.height > 65 || data.weight > 5 || data.date > 31) {
-      throw new Error(t('form.error'));
+    if (!isLoading.value) {
+      isLoading.value = true;
+      setTimeout(() => {
+        isLoading.value = false;
+      }, 2000)
+      // Data validation
+      if (isNaN(data.height) || isNaN(data.weight) || isNaN(data.date) || data.height < 35 || data.weight < 2 || data.date < 1 || data.height > 65 || data.weight > 5 || data.date > 31) {
+        throw new Error(t('form.error'));
+      }
+
+      const globalRegex = new RegExp(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/, 'g');
+
+      if (!globalRegex.test(data.babyName) || data.babyName.length < 2 || data.babyName.length > 30) {
+        throw new Error(t('form.error'));
+      }
+
+      // GENERATE CODE
+      data.code = generateCode(8);
+
+      window.sessionStorage.setItem("code", data.code);
+
+      // SEND DATA
+      console.log('voluntary uncaught error request done, just in case the server is in an OVH building :trollface:')
+      fetch('https://strapi-g6om.onrender.com/predictions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      }).then(checkStatus)
+        .then(parseJSON);
+
+      // Go to reveal page
+      emit('completed', data);
     }
-
-    const globalRegex = new RegExp(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/, 'g');
-
-    if (!globalRegex.test(data.babyName) || data.babyName.length < 2 || data.babyName.length > 30) {
-      throw new Error(t('form.error'));
-    }
-
-    // GENERATE CODE
-    data.code = generateCode(8);
-
-    window.localStorage.setItem("code", data.code);
-
-    // SEND DATA
-    const response = await fetch('https://strapi-g6om.onrender.com/predictions', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }).then(checkStatus)
-      .then(parseJSON);
-    console.log(response);
-    console.log("data:", data);
-
-    // Go to reveal page
-    emit('completed', data);
   } catch (error) {
-    console.log(error)
+    console.error(error)
     errorMessage.value = error
     setTimeout(() => {
       errorMessage.value = ""

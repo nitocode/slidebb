@@ -16,16 +16,13 @@ function toggleSwitch() {
   slideRef.value.switchSide()
 }
 function formComplete(data) {
-  console.log("data completed:", data)
   slideRef.value.setCompleted(true)
 
   formCompleted.value = true
   setTimeout(() => {
-    console.log('ANIMATION FINIE')
     animationCompleted.value = true
     const mainElt = document.querySelector('.main-container')
     mainElt.addEventListener('transitionend', () => {
-      console.log('Transition ended');
       router.push({ name: 'reveal', params: { isGirlForm: data.isGirlForm } })
     });
 
@@ -68,6 +65,7 @@ function formComplete(data) {
   overflow: hidden;
   @media screen and (max-width: 768px) {
     height: 100vh;
+    overflow: scroll;
   }
   clip-path: circle(100%);
   
@@ -86,12 +84,14 @@ function formComplete(data) {
     overflow: hidden;
   background-color: #333;
     @media screen and (max-width: 768px) {
+      border-radius: 0px;
       height: 100vh;
+      min-height: 568px;
     }
   }
 }
 :deep(.main-content) {
-  @media screen and (max-width: 370px) {
+  @media screen and (max-width: 380px) {
     transform: scale(0.8);
   }
 }

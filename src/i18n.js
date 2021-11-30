@@ -4,7 +4,7 @@ const messages = {
   en: {
     home: {
       title: `We're having a baby!!!`,
-      guess: `Guess our future baby's gender, name, size and weight to discover at least the gender<br><span class="italic text-sm lg:text-md">Expected birth date: March 12</span>`,
+      guess: `Guess our future baby's gender, name, size and weight to discover at least the gender.<br><span class="italic text-sm lg:text-md">Expected birth date: March 12th 2022</span>`,
       challenge: `The closest person to the right answer may win a cool prize!`,
       cta: `START GUESSING!`,
     },
@@ -40,7 +40,7 @@ const messages = {
       babyBoySubtitle: `a Pink Floyd newcomer?`,
       thanks: {
         title: `Thank you for participating!`,
-        giveCode: `If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can identify your prediction`,
+        giveCode: `If you're a friend, co-worker or a family member, give us the code you just had<br class="hidden lg:block">&nbsp;so we can <span data-tip="This will NOT be saved on a database" class="tooltip tooltip-primary tooltip-bottom underline">identify</span> your prediction.`,
         myCode: `My code:`,
         support: `Support us!`,
         share: `Share, like, follow, and see you tomorrow!`,
@@ -50,9 +50,9 @@ const messages = {
   fr: {
     home: {
       title: `On va avoir un bébé !!!`,
-      guess: `Devinez le genre, le nom, la taille et le poids de notre futur enfant pour découvrir au moins son genre<br><span class="italic text-sm lg:text-md">date prévue du terme: 12 Mars</span>`,
+      guess: `Devinez le genre, le prénom, la taille et le poids de notre futur enfant pour découvrir au moins son genre.<br><span class="italic text-sm lg:text-md">date prévue du terme: 12 Mars 2022</span>`,
       challenge: `La personne la plus proche de la bonne réponse remportera peut être un cadeau !`,
-      cta: `JE VEUX DEVINER`,
+      cta: `JE VEUX DEVINER !`,
     },
     form: {
       slidebb: {
@@ -77,7 +77,7 @@ const messages = {
         heartbeat: `Baby's heartbeat`,
         tap: `Toucher pour<br>découvrir le genre`
       },
-      instruction: `Tirer sur l'ecran pour découvrir le genre de notre bébé...`,
+      instruction: `Tirer sur l'écran pour découvrir le genre de notre bébé...`,
       questionBoy: `ou est-ce un garçon ?`,
       questionGirl: `Est-ce une fille...`,
       babyGirl: `On va avoir une petite fille !!!`,
@@ -86,9 +86,9 @@ const messages = {
       babyBoySubtitle: `un nouveau Pink Floyd ?`,
       thanks: {
         title: `Merci d'avoir participé !`,
-        giveCode: `Si vous êtes un.e ami.e, collègue ou membre de la famille, donnez-nous le code que vous venez d'avoir<br class="hidden lg:block">&nbsp;pour que l'on puisse identifier votre prédiction`,
+        giveCode: `Si vous êtes un.e ami.e, collègue ou membre de la famille, donnez-nous le code que vous venez d'avoir<br class="hidden lg:block">&nbsp;pour que l'on puisse <span data-tip="Ça ne sera PAS enregistré dans une base de données" class="tooltip tooltip-primary tooltip-bottom underline">identifier</span> votre prédiction.`,
         myCode: `Mon code:`,
-        support: `Nous soutenir`,
+        support: `Suivez-nous sur les réseaux !`,
         share: `Share, like, follow, and see you tomorrow!`,
       },
     }

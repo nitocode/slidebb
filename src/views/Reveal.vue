@@ -297,7 +297,7 @@ const drawLine = (ctx, begin, end, stroke = 'black', width = 1) => {
 }
 
 onMounted(() => {
-  participationCode.value = window.sessionStorage.getItem('code')
+  participationCode.value = route.params.code || ""
   canvasLine.value = document.getElementById("line")
 
   pulseText.value = t('reveal.pulse.heartbeat')
@@ -395,10 +395,10 @@ defineExpose({
     <div class="thanks-container opacity-0 w-11/12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all text-center flex flex-col justify-center items-center" :class="step >= 11 ? 'opacity-100 z-10' : 'z-0'">
       <img class="afc-logo mb-8" src="./../assets/afc-logo.png" alt="A french couple Logo">
       <h1 class="mb-4 text-lg lg:text-4xl font-bold">{{ $t('reveal.thanks.title') }}</h1>
-      <p class="mb-2 text-md lg-text-3xl" v-html="$t('reveal.thanks.giveCode')"></p>
-      <p class="text-lg lg-text-4xl mb-8">{{ $t('reveal.thanks.myCode') }} {{ participationCode ? participationCode : 'N0CET54F'}}</p>
-      <h2 class="mb-2 text-lg lg:text-4xl font-bold">{{ $t('reveal.thanks.support') }}</h2>
-      <p class="text-md lg-text-2xl">{{ $t('reveal.thanks.share') }}</p>
+      <p v-if="participationCode" class="mb-2 text-md lg-text-3xl" v-html="$t('reveal.thanks.giveCode')"></p>
+      <p v-else class="mb-2 text-md lg-text-3xl" v-html="$t('reveal.thanks.noCode')"></p>
+      <p v-if="participationCode" class="text-lg lg-text-4xl">{{ $t('reveal.thanks.myCode') }} {{ participationCode ? participationCode : 'N0CET54F'}}</p>
+      <h2 class="mt-8 mb-2 text-lg lg:text-4xl font-bold">{{ $t('reveal.thanks.support') }}</h2>
       <div class="my-4 flex flex-row justify-center items-center">
         <a class="instagram-link" href="https://www.instagram.com/a_french_couple/" target="_blank">
           <img src="./../assets/instagram.svg" alt="instagram logo">
@@ -407,6 +407,7 @@ defineExpose({
           <img src="./../assets/twitter.svg" alt="twitter logo">
         </a>
       </div>
+      <p class="text-md lg-text-xl italic">{{ $t('reveal.thanks.share') }}</p>
     </div>
   </div>
 </template>

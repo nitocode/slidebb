@@ -23,7 +23,7 @@ function formComplete(data) {
     animationCompleted.value = true
     const mainElt = document.querySelector('.main-container')
     mainElt.addEventListener('transitionend', () => {
-      router.push({ name: 'reveal', params: { isGirlForm: data.isGirlForm } })
+      router.push({ name: 'reveal', params: { isGirlForm: data.isGirlForm, code: data.code } })
     });
 
   }, transitionDuration.value * 2)

@@ -62,7 +62,7 @@ const submit = () => {
       // GENERATE CODE
       data.code = generateCode(8);
 
-      window.sessionStorage.setItem("code", data.code);
+      // window.sessionStorage.setItem("code", data.code);
 
       // SEND DATA
       console.log('voluntary uncaught error request done, just in case the server is in an OVH building :trollface:')

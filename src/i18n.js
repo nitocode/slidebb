@@ -7,6 +7,8 @@ const messages = {
       guess: `Guess our future baby's gender, name, size and weight to discover at least the gender.<br><span class="italic text-sm lg:text-md">Expected birth date: March 12th 2022</span>`,
       challenge: `The closest person to the right answer may win a cool prize!`,
       cta: `START GUESSING!`,
+      discover: `DISCOVER THE GENDER`,
+      or: `or`,
     },
     form: {
       slidebb: {
@@ -54,6 +56,8 @@ const messages = {
       guess: `Devine le genre, le prénom, la taille et le poids de notre futur enfant pour découvrir au moins son genre.<br><span class="italic text-sm lg:text-md">date prévue du terme: 12 Mars 2022</span>`,
       challenge: `La personne la plus proche de la bonne réponse remportera peut être un cadeau !`,
       cta: `JE VEUX DEVINER !`,
+      discover: `DÉCOUVRIR LE GENRE`,
+      or: `ou`,
     },
     form: {
       slidebb: {

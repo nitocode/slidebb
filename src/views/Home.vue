@@ -28,7 +28,7 @@ onMounted(() => {
     <p class="text-md lg:text-lg opacity-0 transform transition duration-1000 delay-1000" :class="[{'opacity-100': displayContent}, displayContent ? 'translate-y-0' : 'translate-y-3.5']">{{$t('home.challenge')}}</p>
 
     <button class="mt-10 btn btn-primary rounded-full opacity-0 transform transition duration-1000 delay-2000 block mx-auto" :class="[{'opacity-100': displayContent}, displayContent ? 'translate-y-0' : 'translate-y-3.5']" @click="goToNextPage()">{{$t('home.cta')}}</button>
-      <div class="divider w-1/2 max-w-full mx-auto">{{$t('home.or')}}</div> 
+    <div class="divider w-1/2 max-w-full mx-auto opacity-0 transform transition duration-1000 delay-2000" :class="[{'opacity-100': displayContent}]">{{$t('home.or')}}</div> 
     <button class="mt-4 btn btn-primary rounded-full opacity-0 transform transition duration-1000 delay-2000 block mx-auto" :class="[{'opacity-100': displayContent}, displayContent ? 'translate-y-0' : 'translate-y-3.5']" @click="goToRevealPage()">{{$t('home.discover')}}</button>
   </div>
 </template>
